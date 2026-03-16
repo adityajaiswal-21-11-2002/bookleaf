@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { Sidebar } from "@/components/Sidebar";
@@ -41,16 +41,16 @@ export default function AdminTicketDetailPage() {
   const [note, setNote] = useState("");
   const [savingNote, setSavingNote] = useState(false);
 
-  const fetchTicket = () => {
+  const fetchTicket = useCallback(() => {
     fetch(`/api/tickets/${params.id}`, { credentials: "include" })
       .then((r) => r.json())
       .then((d) => setTicket(d.ticket))
       .catch(() => setTicket(null));
-  };
+  }, [params.id]);
 
   useEffect(() => {
     fetchTicket();
-  }, [params.id]);
+  }, [fetchTicket]);
 
   const generateDraft = async () => {
     if (!ticket) return;

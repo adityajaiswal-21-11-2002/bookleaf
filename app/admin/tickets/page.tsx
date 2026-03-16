@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Sidebar } from "@/components/Sidebar";
 import { useAuth } from "@/components/AuthProvider";
@@ -28,7 +28,7 @@ export default function AdminTicketsPage() {
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
 
-  const fetchTickets = () => {
+  const fetchTickets = useCallback(() => {
     const params = new URLSearchParams();
     if (status) params.set("status", status);
     if (priority) params.set("priority", priority);
@@ -38,11 +38,11 @@ export default function AdminTicketsPage() {
       .then((r) => r.json())
       .then((d) => setTickets(d.tickets || []))
       .catch(() => setTickets([]));
-  };
+  }, [status, priority, category, date]);
 
   useEffect(() => {
     fetchTickets();
-  }, [status, priority, category, date]);
+  }, [fetchTickets]);
 
   if (loading || !user) return null;
 

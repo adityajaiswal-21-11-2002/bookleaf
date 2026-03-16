@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { Sidebar } from "@/components/Sidebar";
@@ -26,16 +26,16 @@ export default function TicketDetailPage() {
   const { user, loading, logout } = useAuth();
   const [ticket, setTicket] = useState<Ticket | null>(null);
 
-  const fetchTicket = () => {
+  const fetchTicket = useCallback(() => {
     fetch(`/api/tickets/${params.id}`, { credentials: "include" })
       .then((r) => r.json())
       .then((d) => setTicket(d.ticket))
       .catch(() => setTicket(null));
-  };
+  }, [params.id]);
 
   useEffect(() => {
     fetchTicket();
-  }, [params.id]);
+  }, [fetchTicket]);
 
   useEffect(() => {
     const es = new EventSource("/api/sse/tickets", { withCredentials: true });
