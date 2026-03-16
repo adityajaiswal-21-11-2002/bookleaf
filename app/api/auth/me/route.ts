@@ -1,6 +1,8 @@
 import { getAuthUser } from "@/lib/auth";
 import { getMe } from "@/services/authService";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const authUser = await getAuthUser();

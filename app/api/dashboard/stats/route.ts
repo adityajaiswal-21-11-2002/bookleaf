@@ -3,6 +3,8 @@ import Book from "@/models/Book";
 import Ticket from "@/models/Ticket";
 import { getAuthUser } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const user = await getAuthUser();

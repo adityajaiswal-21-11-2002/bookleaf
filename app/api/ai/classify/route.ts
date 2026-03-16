@@ -1,5 +1,7 @@
 import { NextRequest } from "next/server";
 import { getAuthUser } from "@/lib/auth";
+
+export const dynamic = "force-dynamic";
 import { classifyTicket } from "@/services/aiService";
 
 export async function POST(request: NextRequest) {
